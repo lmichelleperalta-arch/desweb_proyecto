@@ -1,0 +1,16 @@
+services:
+    portainer:
+        image: portainer/portainer
+        restart: "unless-stopped"
+        container_name: "peralta-portainer-app"
+        privileged: true
+        #command: --no-auth
+        ports:
+            - 127.0.0.1:3028:9000
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+            - /srv/docker/portainer/data:/data
+            - /etc/localtime:/etc/localtime:ro
+            - /etc/timezone:/etc/timezone:ro
+        environment:
+            TZ: "Europe/Berlin"

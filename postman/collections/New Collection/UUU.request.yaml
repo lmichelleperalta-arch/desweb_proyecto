@@ -1,0 +1,8 @@
+$kind: http-request
+name: UUU
+url: http://localhost:8001/catastrodj/hello_catastrodj/
+method: POST
+body:
+  type: json
+  content: "{\r\n    \"FFF\":5555\r\n}"
+order: 2000

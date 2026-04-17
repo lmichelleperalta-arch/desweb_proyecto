@@ -38,4 +38,5 @@ urlpatterns = [
 
     path('codelist/', include('codelist.urls')),
     path('core/', include('core.urls')),
+    path('catastrodj/', include('catastrodj.urls')),
     ]
