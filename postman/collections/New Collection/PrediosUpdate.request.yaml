@@ -1,0 +1,5 @@
+$kind: http-request
+name: PrediosUpdate
+url: ""
+method: GET
+order: 3671752003834161

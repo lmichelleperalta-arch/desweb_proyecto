@@ -1,37 +1,5 @@
 $kind: http-request
 name: PredioSelectAll
-url: http://localhost:8001/catastrodj/prediosdelete_catastrodj/
+url: http://localhost:8001/catastrodj/prediosselectall_catastrodj/
 method: GET
-body:
-  type: formdata
-  content:
-    - type: text
-      key: description
-      value: Pirmera insercion
-      description: ""
-      disabled: false
-    - type: text
-      key: geom
-      value: POLYGON((725651.91608285112306476 4372246.56803378276526928,
-        725688.79413162509445101 4372252.33022890333086252,
-        725696.8612047943752259 4372249.56437524501234293,
-        725704.92827796365600079 4372247.48998500220477581,
-        725721.06242430221755058 4372242.64974110014736652,
-        725733.04779015376698226 4372202.08388744946569204,
-        725708.38559503620490432 4372199.08754598628729582,
-        725685.10632674768567085 4372196.78266793768852949,
-        725653.0685218753060326 4372197.24364354740828276,
-        725651.91608285112306476 4372246.56803378276526928))
-      description: ""
-      disabled: false
-    - type: text
-      key: nombre
-      value: Plaza del Ayuntamiento de Valencia
-      description: ""
-      disabled: false
-    - type: text
-      key: id
-      value: "2"
-      description: ""
-      disabled: false
-order: 3000
+order: 3332418808745217
