@@ -1,0 +1,23 @@
+$kind: http-request
+name: Insert
+url: http://peralta.geomaticaupv.es:8028/catastrodj/prediosinsert_catastrodj/
+method: POST
+body:
+  type: formdata
+  content:
+    - type: text
+      key: description
+      value: Plaza de la Mercé, Cento de Valencia
+      description: ""
+      disabled: false
+    - type: text
+      key: geom
+      value: POLYGON ((725548.0515000001 4372529.3766, 725544.6812 4372506.4455, 725545.5403 4372506.6437, 725561.6648 4372503.7360000005, 725574.2868 4372500.1014, 725560.4092 4372527.2619, 725551.554 4372528.9801, 725548.1176 4372529.8392, 725548.0515000001 4372529.3766))
+      description: ""
+      disabled: false
+    - type: text
+      key: nombre
+      value: Plaza de la Mercé
+      description: ""
+      disabled: false
+order: 3754784283692434

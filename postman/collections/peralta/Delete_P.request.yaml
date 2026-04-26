@@ -1,0 +1,5 @@
+$kind: http-request
+name: Delete_P
+url: http://peralta.geomaticaupv.es:8028/catastrodj/prediosdelete2_catastrodj/6/
+method: POST
+order: 4182636500821980
