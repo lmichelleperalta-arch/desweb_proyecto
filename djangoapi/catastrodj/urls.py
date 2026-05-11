@@ -20,6 +20,6 @@ urlpatterns = [
     path("iglesiasdelete_catastrodj/<int:id>/",views. IglesiasDelete.as_view(),name="iglesiasdelete_catastrodj"),
     path("iglesiasselectall_catastrodj/",views.IglesiasSelectAll.as_view(),name="iglesiasselectall_catastrodj"),
     path("iglesiasselectasdicts_catastrodj/<int:id>/",views.IglesiasSelectAsDicts.as_view(),name="iglesiasselectasdicts_catastrodj"),
-    path("iglesiasupdate_catastrodj/<int:id>/",views.IglesiasUpdate.as_view(),name="iglesiasupdate_catastrodj_catastrodj_catastrodj"),
+    path("iglesiasupdate_catastrodj/<int:id>/",views.IglesiasUpdate.as_view(),name="iglesiasupdate_catastrodj"),
    
 ]

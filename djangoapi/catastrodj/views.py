@@ -84,8 +84,11 @@ class CallesSelectAll(View):
     
 class CallesUpdate(View):
     def post(self, request):
-        d=request.POST.dict()
-        r=update_c(d)
+        d = request.POST.dict()
+        # Si el ID no viene en el body, lo puedes forzar desde la URL:
+        if 'id' not in d:
+            d['id'] = id
+        r = update_c(d)
         return JsonResponse(r)
 
 class CallesSelectAsDicts(View):
@@ -115,8 +118,12 @@ class IglesiasSelectAll(View):
     
 class IglesiasUpdate(View):
     def post(self, request):
-        d=request.POST.dict()
-        r=update_i(d)
+        d = request.POST.dict()
+        # Si el ID no viene en el body, lo puedes forzar desde la URL:
+        if 'id' not in d:
+            d['id'] = id
+            
+        r = update_i(d)
         return JsonResponse(r)
 
 class IglesiasSelectAsDicts(View):
