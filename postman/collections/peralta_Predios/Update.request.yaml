@@ -1,6 +1,6 @@
 $kind: http-request
 name: Update
-url: http://peralta.geomaticaupv.es:8028/catastrodj/prediosupdate_catastrodj/
+url: http://peralta.geomaticaupv.es/api/catastrodj/prediosupdate_catastrodj/
 method: POST
 body:
   type: urlencoded
@@ -8,5 +8,5 @@ body:
     id: "1"
     nombre: Plaza del Ayuntamiento
     geom: POLYGON ((725651.9161 4372246.568, 725688.7941 4372252.330200001, 725696.8612 4372249.5644000005, 725704.9283 4372247.49, 725721.0624 4372242.6497, 725733.0478000001 4372202.0839, 725708.3856 4372199.0875, 725685.1063 4372196.7827, 725653.0685 4372197.243600001, 725651.9161 4372246.568))
-    description: Actualización de datos catastrales 2026
-order: 4182769680160951
+    description: Actualización de datos catastrales nube
+order: 7000

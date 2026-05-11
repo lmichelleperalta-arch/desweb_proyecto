@@ -1,8 +1,0 @@
-$kind: http-request
-name: SelectAll_P
-url: http://peralta.geomaticaupv.es:8028/catastrodj/prediosselectall_catastrodj/
-method: GET
-body:
-  type: formdata
-  content: []
-order: 1777229293248

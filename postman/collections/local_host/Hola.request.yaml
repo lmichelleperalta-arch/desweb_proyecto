@@ -1,0 +1,8 @@
+$kind: http-request
+name: Hola
+url: http://peralta.geomaticaupv.es/api/catastrodj/hello_catastrodj/
+method: GET
+body:
+  type: formdata
+  content: []
+order: 1691

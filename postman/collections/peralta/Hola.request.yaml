@@ -1,8 +1,0 @@
-$kind: http-request
-name: Hola
-url: http://peralta.geomaticaupv.es:8028/catastrodj/hello_catastrodj/
-method: GET
-body:
-  type: formdata
-  content: []
-order: 3643853198574023

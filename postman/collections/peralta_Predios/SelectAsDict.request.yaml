@@ -1,0 +1,8 @@
+$kind: http-request
+name: SelectAsDict
+url: http://peralta.geomaticaupv.es/api/catastrodj/prediosselectasdicts_catastrodj/1/
+method: GET
+body:
+  type: formdata
+  content: []
+order: 5000
