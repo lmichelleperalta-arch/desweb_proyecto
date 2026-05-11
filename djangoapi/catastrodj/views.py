@@ -72,7 +72,8 @@ class CallesInsert(View):
 
 class CallesDelete(View):
     def post(self, request, id):
-        d = {"id": id}
+        d = request.POST.dict()
+        # Aquí no hace falta 'id' en los argumentos porque viene dentro de 'd'
         r = delete_c(d)
         return JsonResponse(r)
 
@@ -85,9 +86,7 @@ class CallesSelectAll(View):
 class CallesUpdate(View):
     def post(self, request):
         d = request.POST.dict()
-        # Si el ID no viene en el body, lo puedes forzar desde la URL:
-        if 'id' not in d:
-            d['id'] = id
+        # Aquí no hace falta 'id' en los argumentos porque viene dentro de 'd'
         r = update_c(d)
         return JsonResponse(r)
 
@@ -106,7 +105,8 @@ class IglesiasInsert(View):
 
 class IglesiasDelete(View):
     def post(self, request, id):
-        d = {"id": id}
+        d = request.POST.dict()
+        # Aquí no hace falta 'id' en los argumentos porque viene dentro de 'd'
         r = delete_i(d)
         return JsonResponse(r)
 
@@ -119,11 +119,8 @@ class IglesiasSelectAll(View):
 class IglesiasUpdate(View):
     def post(self, request):
         d = request.POST.dict()
-        # Si el ID no viene en el body, lo puedes forzar desde la URL:
-        if 'id' not in d:
-            d['id'] = id
-            
-        r = update_i(d)
+        # Aquí no hace falta 'id' en los argumentos porque viene dentro de 'd'
+        r = delete_i(d)
         return JsonResponse(r)
 
 class IglesiasSelectAsDicts(View):
