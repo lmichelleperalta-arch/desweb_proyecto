@@ -7,7 +7,7 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 
-@method_decorator(csrf_exempt, name='dispatch')
+#@method_decorator(csrf_exempt, name='dispatch')
 ##Si no borramos
 
 #My imports
@@ -52,8 +52,9 @@ class PrediosSelectAll(View):
         return JsonResponse(r)
     
 class PrediosUpdate(View):
-    def post(self, request):
+    def post(self, request, id):
         d=request.POST.dict()
+        d["id"] = id
         r=update(d)
         return JsonResponse(r)
 
@@ -84,9 +85,9 @@ class CallesSelectAll(View):
         return JsonResponse(r)
     
 class CallesUpdate(View):
-    def post(self, request):
+    def post(self, request, id):
         d = request.POST.dict()
-        # Aquí no hace falta 'id' en los argumentos porque viene dentro de 'd'
+        d["id"] = id
         r = update_c(d)
         return JsonResponse(r)
 
@@ -117,10 +118,10 @@ class IglesiasSelectAll(View):
         return JsonResponse(r)
     
 class IglesiasUpdate(View):
-    def post(self, request):
+    def post(self, request, id):
         d = request.POST.dict()
-        # Aquí no hace falta 'id' en los argumentos porque viene dentro de 'd'
-        r = delete_i(d)
+        d["id"] = id
+        r = update_i(d)
         return JsonResponse(r)
 
 class IglesiasSelectAsDicts(View):

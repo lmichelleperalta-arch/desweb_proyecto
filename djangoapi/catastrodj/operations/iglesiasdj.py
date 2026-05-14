@@ -135,7 +135,7 @@ def update(d:dict):
         if len(l)>0:
             b:Iglesias=l[0]
         else:
-            return {'ok':False, "Mesage": f"No Iglesiass found with id {d['d'], 'data':None}"}
+            return {'ok':False, "Mesage": f"No Iglesiass found with id {d['id']}", 'data':None}
 
         b.geom=g
         b.description=d['description']
@@ -213,5 +213,5 @@ def run():
             'nombre':"Capilla Central UPV",
             "geom": 'POINT(728471 4373046)'   }
     
-    print(insertI(d_of_values))
-    print(deleteI(d_of_values))
+    print(insert(d_of_values))
+    print(delete(d_of_values))

@@ -107,7 +107,7 @@ def update(d:dict):
         if len(l)>0:
             b:Predio=l[0]
         else:
-            return {'ok':False, "Mesage": f"No Predios found with id {d['d'], 'data':None}"}
+            return {'ok':False, "Mesage": f"No Predios found with id {d['id']}", 'data':None}
 
         b.geom=g
         b.description=d['description']
