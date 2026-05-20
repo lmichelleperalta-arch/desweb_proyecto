@@ -41,6 +41,7 @@ def insert(d:dict):
         if len(r)>0:
             return {'ok': False, 'message':'The geometry interior intersects with the following geometries id', 'data': r}
 
+        d.pop('id', None)
         d['geom']=g
         b=Predio(**d)
         b.save()
@@ -50,17 +51,17 @@ def insert(d:dict):
         return {'ok': True, 'message':'Predio insertado', 'data': [d]}
     
     except Exception as e:
-        return {"ok": False, "Message": str(e), "data": None}
+        return {"ok": False, "message": str(e), "data": None}
 
 def delete(d:dict):
     #create the geometry with geos
     f=Predio.objects.filter(id=d['id'])
     l=list(f)
     if len(l)<1:
-        return {"ok":False, "Message": f"No Predio with the id {d['id']}", "data":None}
+        return {"ok":False, "message": f"No Predio with the id {d['id']}", "data":None}
     b:Predio=l[0]
     b.delete()
-    return {'ok':True, 'Message': f"Predio deleted: 1",
+    return {'ok':True, 'message': f"Predio deleted: 1",
             'data':[{'id':d["id"]}]}
 
     #g=GEOSGeometry(d['geom'], srid=p1Settings.EPSG_CODE)
@@ -95,7 +96,7 @@ def update(d:dict):
                 'T********'
             )
         """
-        cur.execute(query, [d['id'], simple_wkb_geometry])
+        cur.execute(query, [int(d['id']), simple_wkb_geometry])
         r=cur.fetchall()
 
         if len(r)>0:
@@ -109,18 +110,25 @@ def update(d:dict):
         else:
             return {'ok':False, "Mesage": f"No Predios found with id {d['id']}", 'data':None}
 
-        b.geom=g
-        b.description=d['description']
-        b.save()
+        d['geom'] = g
+
+
+        # Iterar el diccionario dinámicamente y asignar todas las propiedades (excepto ID)
+        for key, value in d.items():
+            if hasattr(b, key) and key != 'id':
+                setattr(b, key, value)
+        
+        b.save() # Esto ejecutará tu cálculo
+
         d=model_to_dict(b)
         d['geom']=g.wkt
         d['data_creation']=d['data_creation'].strftime("%Y-%m-%d %H:%M:%S")
 
-        return {'ok':True, 'Message': f"Updated buildings: {len(l)}",
+        return {'ok':True, 'message': f"Updated buildings: {len(l)}",
                 'data':[d]}
     
     except Exception as e:
-        return {"ok": False, "Message": str(e), "data": None}
+        return {"ok": False, "message": str(e), "data": None}
 
 # def select(d:dict):
 #     try:
@@ -130,15 +138,15 @@ def update(d:dict):
 #         b:Predio=l[0] #we take the first element of the list, since there should be only one element with the given id, if there are more, we will return an error message
 
 #         if len(l)<1: # if there is no predios with the given id, we return an error message
-#             return {"ok":False, "Message": f"No Predio with the id {d['id']}", "data":None}
+#             return {"ok":False, "message": f"No Predio with the id {d['id']}", "data":None}
 #         d=model_to_dict(b)
 #         g=GEOSGeometry(d['geom'], srid=EPSG_FOR_GEOMETRIES)
 #         d['geom']=g.wkt
 #         d['data_creation']=d['data_creation'].strftime("%Y-%m-%d %H:%M:%S")
-#         return {'ok':True, 'Message': f"Retriewed Predio: {len(l)}",
+#         return {'ok':True, 'message': f"Retriewed Predio: {len(l)}",
 #                 'data':[d]}
 #     except Exception as e:
-#         return {"ok":False, "Message": str(e), "data":None}
+#         return {"ok":False, "message": str(e), "data":None}
 
 ##Devuelve un diccionario de un id
 def selectAsDicts(d:dict):
@@ -149,7 +157,7 @@ def selectAsDicts(d:dict):
         #si ponemos .values() devuelve diccionarios directamente
         l = list(csql)
         if len(l)<1: # if there is no predios with the given id, we return an error message
-            return {"ok":False, "Message": f"No Predio with the id {d['id']}", "data":None}
+            return {"ok":False, "message": f"No Predio with the id {d['id']}", "data":None}
 
         for r in l:
             g = GEOSGeometry(r['geom'], srid=EPSG_FOR_GEOMETRIES)
@@ -157,10 +165,10 @@ def selectAsDicts(d:dict):
             r['data_creation'] = r['data_creation'].strftime("%Y-%m-%d %H:%M:%S")
 
         return {"ok": True,
-            "Message": f"Retrieved Predio: {len(l)}",
+            "message": f"Retrieved Predio: {len(l)}",
             "data": l}
     except Exception as e:
-        return {"ok": False, "Message": str(e), "data": None}
+        return {"ok": False, "message": str(e), "data": None}
     
 ##Devuelve un diccionario de con todos los id sin implementar .values -> camino largo para convertir a diccionario
 def selectallAsDicts():
@@ -175,10 +183,10 @@ def selectallAsDicts():
             d['data_creation'] = d['data_creation'].strftime("%Y-%m-%d %H:%M:%S")
             data.append(d)
         return { "ok": True,
-            "Message": f"Retrieved Predios: {len(data)}",
+            "message": f"Retrieved Predios: {len(data)}",
             "data": data}
     except Exception as e:
-        return {"ok": False, "Message": str(e), "data": None}
+        return {"ok": False, "message": str(e), "data": None}
 
 def selectAsTuples():
     try:
@@ -189,11 +197,11 @@ def selectAsTuples():
 
         return {
             "ok": True,
-            "Message": f"Retrieved Predios: {len(l)}",
+            "message": f"Retrieved Predios: {len(l)}",
             "data": l }
 
     except Exception as e:
-        return {"ok": False, "Message": str(e), "data": None}
+        return {"ok": False, "message": str(e), "data": None}
 
 def run():
     d_of_values= {

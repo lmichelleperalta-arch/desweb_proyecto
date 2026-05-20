@@ -53,6 +53,15 @@ else:
     # Si la variable no existe, asigna una lista vacía para seguridad
     ALLOWED_HOSTS = []
 
+# Para que confíe en mi dominio:
+csrf_trusted_origins = os.getenv('DJANGO_CSRF_TRUSTED_ORIGINS')
+if csrf_trusted_origins:
+    # Si son hosts específicos, los separa y limpia
+    CSRF_TRUSTED_ORIGINS = [host.strip() for host in csrf_trusted_origins.split(',')]
+else:
+    # Si la variable no existe, asigna una lista vacía para seguridad
+    CSRF_TRUSTED_ORIGINS = []
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -185,8 +194,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
-STATIC_ROOT = 'static_root/'
+STATIC_URL = '/static/'
+STATIC_ROOT=BASE_DIR / 'staticfiles'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

@@ -45,6 +45,9 @@ def insert(d:dict):
     b.save()
     d=model_to_dict(b)
     d['geom']=g.wkt
+    b.description = d['description']
+    b.nombre = d['nombre']
+    b.nombre = d['estado']
     d['data_creation']=d['data_creation'].strftime("%Y-%m-%d %H:%M:%S")
     return {'ok': True, 'message':'Calles insertado', 'data': [d]}
 
@@ -53,10 +56,10 @@ def delete(d:dict):
     f=Calles.objects.filter(id=d['id'])
     l=list(f)
     if len(l)<1:
-        return {"ok":False, "Message": f"No Calles with the id {d['id']}", "data":None}
+        return {"ok":False, "message": f"No Calles with the id {d['id']}", "data":None}
     b:Calles=l[0]
     b.delete()
-    return {'ok':True, 'Message': f"Calles deleted: 1",
+    return {'ok':True, 'message': f"Calles deleted: 1",
             'data':[{'id':d["id"]}]}
 
     #g=GEOSGeometry(d['geom'], srid=p1Settings.EPSG_CODE)
@@ -84,14 +87,17 @@ def update(d:dict):
     
     #Now we can check if it intersects with another geomtry in the same layer
     #check if the geometry intersects any existing catastrodj_Calles
+    # En la base de datos se llama catastrodj_calles (minúscula)
     query=""" 
-        select id from catastrodj_Calles where ST_relate(
-            geom,
-            %s,
-            'T********'
-        )
-    """
-    cur.execute(query, [simple_wkb_geometry])
+            select id from catastrodj_calles WHERE id <> %s AND ST_relate(
+                geom,
+                %s,
+                'T********'
+            )
+        """
+    # IMPORTANTE: d['id'] viene como string desde Angular ('25'). 
+    # Para PostGIS/SQL debe convertirse a int.
+    cur.execute(query, [int(d['id']), simple_wkb_geometry])
     r=cur.fetchall()
 
     if len(r)>0:
@@ -105,14 +111,20 @@ def update(d:dict):
     else:
         return {'ok':False, "Mesage": f"No Calles found with id {d['id']}", 'data':None}
 
-    b.geom=g
-    b.description=d['description']
-    b.save()
+    d['geom'] = g
+
+    # Iterar el diccionario dinámicamente y asignar todas las propiedades (excepto ID)
+    for key, value in d.items():
+        if hasattr(b, key) and key != 'id':
+            setattr(b, key, value)
+    
+    b.save() # Esto ejecutará tu cálculo
+
     d=model_to_dict(b)
     d['geom']=g.wkt
     d['data_creation']=d['data_creation'].strftime("%Y-%m-%d %H:%M:%S")
 
-    return {'ok':True, 'Message': f"Updated Calles: {len(l)}",
+    return {'ok':True, 'message': f"Updated Calles: {len(l)}",
             'data':[d]}
 
 ##Devuelve un diccionario de un id
@@ -124,7 +136,7 @@ def selectAsDicts(d:dict):
         #si ponemos .values() devuelve diccionarios directamente
         l = list(csql)
         if len(l)<1: # if there is no Calless with the given id, we return an error message
-            return {"ok":False, "Message": f"No Calles with the id {d['id']}", "data":None}
+            return {"ok":False, "message": f"No Calles with the id {d['id']}", "data":None}
 
         for r in l:
             g = GEOSGeometry(r['geom'], srid=EPSG_FOR_GEOMETRIES)
@@ -132,10 +144,10 @@ def selectAsDicts(d:dict):
             r['data_creation'] = r['data_creation'].strftime("%Y-%m-%d %H:%M:%S")
 
         return {"ok": True,
-            "Message": f"Retrieved Calles: {len(l)}",
+            "message": f"Retrieved Calles: {len(l)}",
             "data": l}
     except Exception as e:
-        return {"ok": False, "Message": str(e), "data": None}
+        return {"ok": False, "message": str(e), "data": None}
     
 ##Devuelve un diccionario de con todos los id sin implementar .values -> camino largo para convertir a diccionario
 def selectallAsDicts():
@@ -150,10 +162,10 @@ def selectallAsDicts():
             d['data_creation'] = d['data_creation'].strftime("%Y-%m-%d %H:%M:%S")
             data.append(d)
         return { "ok": True,
-            "Message": f"Retrieved Calless: {len(data)}",
+            "message": f"Retrieved Calless: {len(data)}",
             "data": data}
     except Exception as e:
-        return {"ok": False, "Message": str(e), "data": None}
+        return {"ok": False, "message": str(e), "data": None}
 
 ##Devuelve una lista de tuplas de con todos los id sin implementar
 def selectAsTuples():
@@ -165,11 +177,11 @@ def selectAsTuples():
 
         return {
             "ok": True,
-            "Message": f"Retrieved Calless: {len(l)}",
+            "message": f"Retrieved Calless: {len(l)}",
             "data": l }
 
     except Exception as e:
-        return {"ok": False, "Message": str(e), "data": None}
+        return {"ok": False, "message": str(e), "data": None}
 
 def run():
     d_of_values= {

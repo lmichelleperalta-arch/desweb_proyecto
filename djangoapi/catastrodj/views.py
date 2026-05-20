@@ -12,6 +12,7 @@ from django.utils.decorators import method_decorator
 
 #My imports
 from core.myLib.geometryTools import WkbConversor, GeometryChecks
+import json
 
 from catastrodj import models
 from catastrodj.operations.prediodj import insert,delete, selectallAsDicts, update, selectAsDicts
@@ -70,11 +71,10 @@ class CallesInsert(View):
         d=request.POST.dict()
         r=insert_c(d)
         return JsonResponse(r)
-
+    
 class CallesDelete(View):
     def post(self, request, id):
-        d = request.POST.dict()
-        # Aquí no hace falta 'id' en los argumentos porque viene dentro de 'd'
+        d = {"id": id}
         r = delete_c(d)
         return JsonResponse(r)
 
@@ -106,11 +106,10 @@ class IglesiasInsert(View):
 
 class IglesiasDelete(View):
     def post(self, request, id):
-        d = request.POST.dict()
-        # Aquí no hace falta 'id' en los argumentos porque viene dentro de 'd'
+        d = {"id": id}
         r = delete_i(d)
         return JsonResponse(r)
-
+    
 #GET por que solo estamos seleccionando
 class IglesiasSelectAll(View):
     def get(self, request):
